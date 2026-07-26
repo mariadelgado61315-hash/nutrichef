@@ -1,21 +1,53 @@
-// NutriChef-  Proyecto Final
-
-console.log("Voy a buscar recetas...");
-
-console.log(" NutriChef iniciado correctamente");
+//elementor de la pagina que vamos a usar
 
 const contenedor = document.getElementById("contenedor-de-recetas");
 
+const buscador = document.getElementById("buscador");
+
+const btnBuscar = document.getElementById("btnBuscar");
+
+// URL de la API
 const API_URL = "https://www.themealdb.com/api/json/v1/1/search.php?s=";
 
+// Función para consultar recetas
 async function obtenerRecetas() {
-  console.log("Voy a buscar recetas...");
+  try {
+    // leer el texto escrito por el usuario
+    const texto = buscador.value.trim();
 
-  const respuesta = await fetch(API_URL);
+    // Validar que el usuario escriba algo
+    if (texto === "") {
+      alert("¿que receta deseas consultar hoy?.");
+      return;
+    }
 
-  const datos = await respuesta.json();
+    console.log("Buscando:", texto);
 
-  console.log(datos);
+    // la URL se modifica cuando el usuario ingresa la informacion de busqueda
+    const respuesta = await fetch(API_URL + texto);
+    console.log("Estado:", respuesta.status);
+
+    // Guardamos  y traduciomos la respuesta para poder usarla
+    const datos = await respuesta.json();
+    console.log(datos);
+
+    // validando que la API encuentre la respuesta
+    if (datos.meals == null) {
+      alert("No se encontraron recetas.");
+      return;
+    }
+
+    // Limpiar el contenedor antes de mostrar resultados
+    contenedor.innerHTML = "";
+
+    // Recorrer todas las recetas encontradas
+    datos.meals.forEach(function (receta) {
+      console.log(receta);
+    });
+  } catch (error) {
+    console.error("Error:", error);
+  }
 }
 
-obtenerRecetas();
+//boton buscar
+btnBuscar.addEventListener("click", obtenerRecetas);
