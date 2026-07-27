@@ -1,22 +1,30 @@
 //elementor de la pagina que vamos a usar
 
-console.log("JS CARGADO");
-
 const contenedor = document.getElementById("contenedor-de-recetas");
-
 const buscador = document.getElementById("buscador");
+const btnBuscar = document.getElementById("btnBuscar");
 
 // botones del menu
-const btnBuscar = document.getElementById("btnBuscar");
+const menuInicio = document.getElementById("menuInicio");
 const menuPollo = document.getElementById("menuPollo");
 const menuRes = document.getElementById("menuRes");
 const menuCerdo = document.getElementById("menuCerdo");
 const menuVegetal = document.getElementById("menuVegetal");
-const menuInicio = document.getElementById("menuInicio");
-const menuPopulares = document.getElementById("menuPopulares");
+const menuPopulares = document.getElementById("masBuscadas");
+
+//botones del modal
+const modal = document.getElementById("modal");
+const cerrarModal = document.getElementById("cerrarModal");
+const imagenModal = document.getElementById("imagenModal");
+const tituloModal = document.getElementById("tituloModal");
+const categoriaModal = document.getElementById("categoriaModal");
+const paisModal = document.getElementById("paisModal");
+const ingredientesModal = document.getElementById("ingredientesModal");
+const preparacionModal = document.getElementById("preparacionModal");
 
 // URL de la API
 const API_URL = "https://www.themealdb.com/api/json/v1/1/search.php?s=";
+const API_DETALLE = "https://www.themealdb.com/api/json/v1/1/lookup.php?i=";
 
 // Función para consultar recetas
 async function obtenerRecetas() {
@@ -49,7 +57,7 @@ async function obtenerRecetas() {
     // Limpiar el contenedor antes de mostrar resultados
     contenedor.innerHTML = "";
 
-    //recorrer todas las recetas
+    //recorrer todas las recetas con el for each
     datos.meals.forEach(function (receta) {
       contenedor.innerHTML += `
 
@@ -73,12 +81,25 @@ async function obtenerRecetas() {
 
                 <button
 
-                  class="mt-4 bg-green-600 text-white px-4 py-2 rounded-lg">
-                   📝 Ver recetas
+                    class="verReceta mt-4 bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700"
+                         data-id="${receta.idMeal}">
+                   📝 Ver recetas                
+
                 </button>
+                
 
             </div>
             `;
+    });
+
+    /// botones para ver receta
+
+    const botones = document.querySelectorAll(".verReceta");
+    botones.forEach(function (boton) {
+      boton.addEventListener("click", function () {
+        const id = boton.dataset.id;
+        obtenerDetalleReceta(id);
+      });
     });
   } catch (error) {
     console.error("Error:", error);
@@ -86,76 +107,50 @@ async function obtenerRecetas() {
 }
 
 //boton buscar
-buscador.addEventListener("keypress", function(event){
-    if(event.key === "Enter"){
-        obtenerRecetas();
-    }
+buscador.addEventListener("keypress", function (event) {
+  if (event.key === "Enter") {
+    obtenerRecetas();
+  }
 });
 
-
 //Menu inicio
-menuInicio.addEventListener("click", function(event){
-
-    event.preventDefault();
-
-    buscador.value = "";
-
-    contenedor.innerHTML = "";
-
+menuInicio.addEventListener("click", function (event) {
+  event.preventDefault();
+  buscador.value = "";
+  contenedor.innerHTML = "";
 });
 
 //Menu pollo
-menuPollo.addEventListener("click", function(event){
-
-    event.preventDefault();
-
-    buscador.value = "chicken";
-
-    obtenerRecetas();
-
+menuPollo.addEventListener("click", function (event) {
+  event.preventDefault();
+  buscador.value = "chicken";
+  obtenerRecetas();
 });
 
-//Menu Res 
-menuRes.addEventListener("click", function(event){
-
-    event.preventDefault();
-
-    buscador.value = "beef";
-
-    obtenerRecetas();
-
+//Menu Res
+menuRes.addEventListener("click", function (event) {
+  event.preventDefault();
+  buscador.value = "beef";
+  obtenerRecetas();
 });
 
 //Menu cerdo
-menuCerdo.addEventListener("click", function(event){
-
-    event.preventDefault();
-
-    buscador.value = "pork";
-
-    obtenerRecetas();
-
+menuCerdo.addEventListener("click", function (event) {
+  event.preventDefault();
+  buscador.value = "pork";
+  obtenerRecetas();
 });
-
 
 //Menu vegetales
-menuVegetal.addEventListener("click", function(event){
-
-    event.preventDefault();
-
-    buscador.value = "vegetarian";
-
-    obtenerRecetas();
-
+menuVegetal.addEventListener("click", function (event) {
+  event.preventDefault();
+  buscador.value = "vegetarian";
+  obtenerRecetas();
 });
 
-//Menu favoritas
-menuPopulares.addEventListener("click", function(event){
-
-    event.preventDefault();
-
-    buscador.value = "a";
-
-    obtenerRecetas();
-
+//Menu mass buscadas
+menuMasBuscadas.addEventListener("click", function (event) {
+  event.preventDefault();
+  buscador.value = "a";
+  obtenerRecetas();
 });
