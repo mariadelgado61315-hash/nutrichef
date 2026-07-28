@@ -14,7 +14,7 @@
   const menuCerdo = document.getElementById("menuCerdo");
   const menuVegetal = document.getElementById("menuVegetal");
   const menuMasBuscadas = document.getElementById("menuMasBuscadas");
-
+  const modoOscuro = document.getElementById("modoOscuro");
 //construcción del modal
 //aca se muestra toda la info del modal
   const modal = document.getElementById("modal");
@@ -123,9 +123,9 @@
 
 //función para obtener cada receta y llenar el modal con la info de cada receta
 
-async function obtenerDetalleReceta(id)
-//consulta la Api por la id   
+async function obtenerDetalleReceta(id){
   try {
+//consulta la Api por la id 
     const respuesta = await fetch(API_DETALLE + id);
     const datos = await respuesta.json();
 
@@ -158,9 +158,12 @@ async function obtenerDetalleReceta(id)
         ingrediente &&
         ingrediente.trim() !== ""
       ){
-        ingredientes +=  "• " +
-        ingrediente + " _ " +
-        medida + "\n";
+        ingredientes +=  
+        "• " +
+        ingrediente +
+        " _ " +
+        medida +
+        "\n";
        }
       }
 
@@ -175,62 +178,81 @@ async function obtenerDetalleReceta(id)
   catch (error) {
   console.error ("Error:", error);
   }
+}
 // cerrar modal 
-  cerrarModal.addEventListener("Click", function(){
+  cerrarModal.addEventListener("click", function(){
     modal.classList.add("hidden");
   })
 
 //boton buscar
-btnBuscar.addEventListener("click", function () {
-  obtenerRecetas();
-  
-buscador.addEventListener("keypress", function (event) {
-  if (event.key === "Enter") {
+//con click
+  btnBuscar.addEventListener("click", function () {
     obtenerRecetas();
-  }
-});
+  });
+
+//con enter
+  buscador.addEventListener("keypress", function (event) {
+      if (event.key === "Enter") {
+        obtenerRecetas();
+      }
+  });
+  
+  
+//cerrar modal
+//click en la x
+  cerrarModal.addEventListener("click", function () {
+      modal.classList.add("hidden");  
+  });
+// click por fuera 
+  modal.addEventListener("click", function (event){
+   if(event.target=== modal){
+    modal.classList.add("hidden");
+   }
+  });
+
 
 //Menu inicio
-menuInicio.addEventListener("click", function (event) {
-  event.preventDefault();
-  buscador.value = "";
-  contenedor.innerHTML = "";
+  menuInicio.addEventListener("click", function (event) {
+    event.preventDefault();
+      buscador.value = "";
+      contenedor.innerHTML = "";
 });
 
 //Menu pollo
-menuPollo.addEventListener("click", function (event) {
-  event.preventDefault();
-  buscador.value = "chicken";
-  obtenerRecetas();
+  menuPollo.addEventListener("click", function (event) {
+    event.preventDefault();
+    buscador.value = "chicken";
+    obtenerRecetas();
 });
 
 //Menu Res
-menuRes.addEventListener("click", function (event) {
-  event.preventDefault();
-  buscador.value = "beef";
-  obtenerRecetas();
+  menuRes.addEventListener("click", function (event) {
+    event.preventDefault();
+    buscador.value = "beef";
+    obtenerRecetas();
 });
 
 //Menu cerdo
-menuCerdo.addEventListener("click", function (event) {
-  event.preventDefault();
-  buscador.value = "pork";
-  obtenerRecetas();
+  menuCerdo.addEventListener("click", function (event) {
+    event.preventDefault();
+    buscador.value = "pork";
+    obtenerRecetas();
 });
 
 //Menu vegetales
-menuVegetal.addEventListener("click", function (event) {
-  event.preventDefault();
-  buscador.value = "vegetarian";
-  obtenerRecetas();
+  menuVegetal.addEventListener("click", function (event) {
+    event.preventDefault();
+    buscador.value = "vegetarian";
+    obtenerRecetas();
 });
 
 //Menu mas buscadas
-menuMasBuscadas.addEventListener("click", function (event) {
-  event.preventDefault();
-  buscador.value = "a";
-  obtenerRecetas();
+  menuMasBuscadas.addEventListener("click", function (event) {
+    event.preventDefault();
+    buscador.value = "a";
+    obtenerRecetas();
 });
 
 
-//elementor de la pagina que vamos a usar
+console.log("🍏 NutriChef iniciado correctamente");
+
