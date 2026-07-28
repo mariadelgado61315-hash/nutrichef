@@ -1,44 +1,43 @@
 //elementos de la pagina que vamos a usar
 
-  const contenedor = document.getElementById("contenedor-de-recetas");
-  const buscador = document.getElementById("buscador");
+const contenedor = document.getElementById("contenedor-de-recetas");
+const buscador = document.getElementById("buscador");
 
 //contenedor del boton buscar
-  const btnBuscar = document.getElementById("btnBuscar");
+const btnBuscar = document.getElementById("btnBuscar");
 
-
-// botones del menu de navegación 
-  const menuInicio = document.getElementById("menuInicio");
-  const menuPollo = document.getElementById("menuPollo");
-  const menuRes = document.getElementById("menuRes");
-  const menuCerdo = document.getElementById("menuCerdo");
-  const menuVegetal = document.getElementById("menuVegetal");
-  const menuMasBuscadas = document.getElementById("menuMasBuscadas");
-  const modoOscuro = document.getElementById("modoOscuro");
+// botones del menu de navegación
+const menuInicio = document.getElementById("menuInicio");
+const menuPollo = document.getElementById("menuPollo");
+const menuRes = document.getElementById("menuRes");
+const menuCerdo = document.getElementById("menuCerdo");
+const menuVegetal = document.getElementById("menuVegetal");
+const menuMasBuscadas = document.getElementById("menuMasBuscadas");
+const modoOscuro = document.getElementById("modoOscuro");
 //construcción del modal
 //aca se muestra toda la info del modal
-  const modal = document.getElementById("modal");
+const modal = document.getElementById("modal");
 
 //boton cerrar
-  const cerrarModal = document.getElementById("cerrarModal");
+const cerrarModal = document.getElementById("cerrarModal");
 
 //componentes del modal
-  const imagenModal = document.getElementById("imagenModal");
-  const tituloModal = document.getElementById("tituloModal");
-  const categoriaModal = document.getElementById("categoriaModal");
-  const paisModal = document.getElementById("paisModal");
-  const ingredientesModal = document.getElementById("ingredientesModal");
-  const preparacionModal = document.getElementById("preparacionModal");
+const imagenModal = document.getElementById("imagenModal");
+const tituloModal = document.getElementById("tituloModal");
+const categoriaModal = document.getElementById("categoriaModal");
+const paisModal = document.getElementById("paisModal");
+const ingredientesModal = document.getElementById("ingredientesModal");
+const preparacionModal = document.getElementById("preparacionModal");
 
 // URL de la API
-  const API_URL = "https://www.themealdb.com/api/json/v1/1/search.php?s=";
-  const API_DETALLE = "https://www.themealdb.com/api/json/v1/1/lookup.php?i=";
+const API_URL = "https://www.themealdb.com/api/json/v1/1/search.php?s=";
+const API_DETALLE = "https://www.themealdb.com/api/json/v1/1/lookup.php?i=";
 
 // Función para consultar recetas
-  async function obtenerRecetas() {
-    try {
-      // leer el texto escrito por el usuario
-      const texto = buscador.value.trim();
+async function obtenerRecetas() {
+  try {
+    // leer el texto escrito por el usuario
+    const texto = buscador.value.trim();
 
     // Validar que el usuario escriba algo
     if (texto === "") {
@@ -70,7 +69,7 @@
     datos.meals.forEach(function (receta) {
       contenedor.innerHTML += `
 
-            <div class="bg-white rounded-xl shadow-lg overflow-hidden w-80 p-4">
+            <div class="tarjeta bg-white rounded-xl shadow-lg overflow-hidden w-full sm:w-80 p-4">
 
   <!-- imagen -->            
                 <img
@@ -109,8 +108,8 @@
     /// activacion de los botones para ver receta
 
     const botones = document.querySelectorAll(".verReceta");
-      botones.forEach(function (boton) {
-        boton.addEventListener("click", function () {
+    botones.forEach(function (boton) {
+      boton.addEventListener("click", function () {
         const id = boton.dataset.id;
         console.log("id de la receta", id);
         obtenerDetalleReceta(id);
@@ -123,136 +122,164 @@
 
 //función para obtener cada receta y llenar el modal con la info de cada receta
 
-async function obtenerDetalleReceta(id){
+async function obtenerDetalleReceta(id) {
   try {
-//consulta la Api por la id 
+    //consulta la Api por la id
     const respuesta = await fetch(API_DETALLE + id);
     const datos = await respuesta.json();
 
-//la API dedvuelve un solo elemento
+    //la API dedvuelve un solo elemento
     const receta = datos.meals[0];
 
-//mostrar imagen
+    //mostrar imagen
     imagenModal.src = receta.strMealThumb;
     imagenModal.alt = receta.strMeal;
 
-//mostrar nombre
+    //mostrar nombre
     tituloModal.textContent = receta.strMeal;
 
-//mostrar categoria
+    //mostrar categoria
     categoriaModal.textContent = " 🔖 Categoria:" + receta.strCategory;
 
-//mostrar pais de origen 
+    //mostrar pais de origen
     paisModal.textContent = "🗺️ País:" + (receta.strArea || "No Disponible");
 
-//mostrar la preparacion 
+    //mostrar la preparacion
     preparacionModal.textContent = receta.strInstructions;
-  
-// ingredientes
+
+    // ingredientes
     let ingredientes = "";
-      for (let i= 1; i<=20;i++){
-        const ingrediente = receta [ "strIngredient" + i];
-        const medida = receta ["strMeasure" + i];
+    for (let i = 1; i <= 20; i++) {
+      const ingrediente = receta["strIngredient" + i];
+      const medida = receta["strMeasure" + i];
 
-      if(
-        ingrediente &&
-        ingrediente.trim() !== ""
-      ){
-        ingredientes +=  
-        "• " +
-        ingrediente +
-        " _ " +
-        medida +
-        "\n";
-       }
+      if (ingrediente && ingrediente.trim() !== "") {
+        ingredientes += "• " + ingrediente + " _ " + medida + "\n";
       }
+    }
 
-//mostrar ingredientes
-      ingredientesModal.textContent = ingredientes;
+    //mostrar ingredientes
+    ingredientesModal.textContent = ingredientes;
 
-//mostrar el modal
-      modal.classList.remove ("hidden");
-
-}
-
-  catch (error) {
-  console.error ("Error:", error);
+    //mostrar el modal
+    modal.classList.remove("hidden");
+  } catch (error) {
+    console.error("Error:", error);
   }
 }
-// cerrar modal 
-  cerrarModal.addEventListener("click", function(){
-    modal.classList.add("hidden");
-  })
+// cerrar modal
+cerrarModal.addEventListener("click", function () {
+  modal.classList.add("hidden");
+});
 
 //boton buscar
 //con click
-  btnBuscar.addEventListener("click", function () {
-    obtenerRecetas();
-  });
+btnBuscar.addEventListener("click", function () {
+  obtenerRecetas();
+});
 
 //con enter
-  buscador.addEventListener("keypress", function (event) {
-      if (event.key === "Enter") {
-        obtenerRecetas();
-      }
-  });
-  
-  
+buscador.addEventListener("keypress", function (event) {
+  if (event.key === "Enter") {
+    obtenerRecetas();
+  }
+});
+
 //cerrar modal
 //click en la x
-  cerrarModal.addEventListener("click", function () {
-      modal.classList.add("hidden");  
-  });
-// click por fuera 
-  modal.addEventListener("click", function (event){
-   if(event.target=== modal){
+cerrarModal.addEventListener("click", function () {
+  modal.classList.add("hidden");
+});
+// click por fuera
+modal.addEventListener("click", function (event) {
+  if (event.target === modal) {
     modal.classList.add("hidden");
-   }
-  });
-
+  }
+});
 
 //Menu inicio
-  menuInicio.addEventListener("click", function (event) {
-    event.preventDefault();
-      buscador.value = "";
-      contenedor.innerHTML = "";
+menuInicio.addEventListener("click", function (event) {
+  event.preventDefault();
+  buscador.value = "";
+  contenedor.innerHTML = "";
 });
 
 //Menu pollo
-  menuPollo.addEventListener("click", function (event) {
-    event.preventDefault();
-    buscador.value = "chicken";
-    obtenerRecetas();
+menuPollo.addEventListener("click", function (event) {
+  event.preventDefault();
+  buscador.value = "chicken";
+  obtenerRecetas();
 });
 
 //Menu Res
-  menuRes.addEventListener("click", function (event) {
-    event.preventDefault();
-    buscador.value = "beef";
-    obtenerRecetas();
+menuRes.addEventListener("click", function (event) {
+  event.preventDefault();
+  buscador.value = "beef";
+  obtenerRecetas();
 });
 
 //Menu cerdo
-  menuCerdo.addEventListener("click", function (event) {
-    event.preventDefault();
-    buscador.value = "pork";
-    obtenerRecetas();
+menuCerdo.addEventListener("click", function (event) {
+  event.preventDefault();
+  buscador.value = "pork";
+  obtenerRecetas();
 });
 
 //Menu vegetales
-  menuVegetal.addEventListener("click", function (event) {
-    event.preventDefault();
-    buscador.value = "vegetarian";
-    obtenerRecetas();
+menuVegetal.addEventListener("click", function (event) {
+  event.preventDefault();
+  buscador.value = "vegetarian";
+  obtenerRecetas();
 });
 
 //Menu mas buscadas
-  menuMasBuscadas.addEventListener("click", function (event) {
-    event.preventDefault();
-    buscador.value = "a";
-    obtenerRecetas();
+menuMasBuscadas.addEventListener("click", function (event) {
+  event.preventDefault();
+  buscador.value = "a";
+  obtenerRecetas();
 });
-
 
 console.log("🍏 NutriChef iniciado correctamente");
 
+//modo oscuro
+modoOscuro.addEventListener("click", function () {
+  // cambiar fondo de la página
+  document.body.classList.toggle("bg-gray-900");
+  document.body.classList.toggle("text-white");
+
+  // cambiar icono
+  if (document.body.classList.contains("bg-gray-900")) {
+    modoOscuro.textContent = "☀️";
+  } else {
+    modoOscuro.textContent = "🌙";
+  }
+
+  // cambiar color del encabezado
+  const header = document.querySelector("header");
+  header.classList.toggle("bg-green-100");
+  header.classList.toggle("bg-gray-800");
+
+  // cambiar buscador
+  buscador.classList.toggle("bg-white");
+  buscador.classList.toggle("bg-gray-700");
+  buscador.classList.toggle("text-white");
+
+  // cambiar color del footer
+  const footer = document.querySelector("footer");
+  footer.classList.toggle("bg-green-100");
+  footer.classList.toggle("bg-gray-800");
+
+  // cambiar color del modal
+  const contenidoModal = modal.querySelector("div");
+  contenidoModal.classList.toggle("bg-white");
+  contenidoModal.classList.toggle("bg-gray-800");
+  contenidoModal.classList.toggle("text-white");
+
+  // cambiar color de las tarjetas
+  const tarjetas = document.querySelectorAll(".tarjeta");
+  tarjetas.forEach(function (tarjeta) {
+    tarjeta.classList.toggle("bg-white");
+    tarjeta.classList.toggle("bg-gray-800");
+    tarjeta.classList.toggle("text-white");
+  });
+});

@@ -4,200 +4,170 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>NutriChef</title>
-
-<!-- en esta parte comenzamos los que seria el css pero en este caso es tailwind-->
+    
+<!--conectamos con el tailwindcc-->
     <script src="https://cdn.tailwindcss.com"></script>
   </head>
 
-  <body class="bg-gray-100"> 
-<!--encabezado-->
-    <header class="flex flex-col lg:flex-row items-center justify-between gap-4 p-4 bg-green-100">
-<!--logo-->
+  <body class="bg-gray-100">
+    <!--encabezado-->
+    <header
+      class="flex flex-col lg:flex-row justify-between items-center gap-4 p-4 bg-green-100"
+    >
+      <!--logo-->
       <div class="logo flex items-center gap-3">
         <img
-          src="img/logo.jpg"
+          src="logo.jpg"
           alt=" Logo de NutriChef"
           class="w-16 h-16 rounded-full"
-          />
+        />
 
         <h1 class="text-2xl font-bold text-green-700">NutriChef</h1>
       </div>
 
-<!--buscador-->
-      <div class="buscador flex-1 mx-8 flex gap-2">
+      <!--buscador-->
+      <div
+        class="buscador w-full lg:flex-1 lg:mx-8 flex flex-col sm:flex-row gap-2"
+      >
         <input
           type="text"
           id="buscador"
           placeholder=" 🔍 Buscar recetas saludables ..."
           class="w-full border rounded-xl p-2"
-          />
+        />
 
         <button
           id="btnBuscar"
-          class="bg-green-600 text-white px-4 rounded-xl hover:bg-green-700"
-          >
+          class="bg-green-600 text-white px-4 py-2 rounded-xl hover:bg-green-700"
+        >
           Buscar
         </button>
       </div>
 
-<!--menu de navegación-->
-      <nav>
-        <ul class="flex gap-5">
-<!--boton inicio-->
+      <!--menu de navegación-->
+      <nav class="w-full lg:w-auto">
+        <ul  class="flex flex-wrap justify-center gap-4">
+          <!--boton inicio-->
           <li>
-            <a 
-            id="menuInicio" 
-            href="#"
-            class ="hover:text-green-700 font-medium">
-            🏡 Inicio
-          </a>
-          </li>
-<!--boton pollo-->    
-          <li>
-            <a id="menuPollo" 
-            href="#"
-            class="hover:text-green-700 font-medium">
-            🍗 Pollo
+            <a
+              id="menuInicio"
+              href="#"
+              class="hover:text-green-700 font-medium"
+            >
+              🏡 Inicio
             </a>
           </li>
-<!--boton res-->
+          <!--boton pollo-->
           <li>
-            <a 
-            id="menuRes"
-            href="#" 
-            class="hover:text-green-700 font-medium">
-            🥩 Res
+            <a id="menuPollo" href="#" class="hover:text-green-700 font-medium">
+              🍗 Pollo
             </a>
           </li>
-        
+          <!--boton res-->
           <li>
-            <a 
-            id="menuCerdo"
-            href="#" 
-            class="hover:text-green-700 font-medium">
-            🐖 Cerdo
-            </a>  
-          </li>
- <!--boton vegetales--> 
-          <li>
-            <a 
-            id="menuVegetal"
-            href="#"
-            class="hover:text-green-700 font-medium">
-            🥦 Vegetal
+            <a id="menuRes" href="#" class="hover:text-green-700 font-medium">
+              🥩 Res
             </a>
           </li>
-<!--boton mas buscadas--> 
+
           <li>
-            <a 
-            id="menuMasBuscadas"
-            href="#" 
-            class="hover:text-green-700 font-medium">
-            ⭐ Más buscadas</a>
+            <a id="menuCerdo" href="#" class="hover:text-green-700 font-medium">
+              🐖 Cerdo
+            </a>
+          </li>
+          <!--boton vegetales-->
+          <li>
+            <a
+              id="menuVegetal"
+              href="#"
+              class="hover:text-green-700 font-medium"
+            >
+              🥦 Vegetal
+            </a>
+          </li>
+          <!--boton mas buscadas-->
+          <li>
+            <a
+              id="menuMasBuscadas"
+              href="#"
+              class="hover:text-green-700 font-medium"
+            >
+              ⭐ Más buscadas</a
+            >
           </li>
         </ul>
       </nav>
 
-<!-- boton modo oscuro-->
-      <button 
-            id="modoOscuro"
-            class="text-2xl">
-            🌙 
-      </button>
+      <!-- boton modo oscuro-->
+      <button id="modoOscuro" class="text-2xl">🌙</button>
     </header>
 
     <main>
-<!-- estrucutra de las tarjetas de recetas -->
-<!-- comienza vacia  -->
+      <!-- estrucutra de las tarjetas de recetas -->
+      <!-- comienza vacia  -->
       <div
         id="contenedor-de-recetas"
-        class="flex flex-wrap justify-center gap-8 p-8">
-      </div>
+        class="flex flex-wrap justify-center gap-6 p-4"
+      ></div>
     </main>
 
-<!-- Modal -->
+    <!-- Modal -->
     <div
       id="modal"
-      class="hidden fixed inset-0 bg-black/50 flex items-center justify-center"
+      class="hidden fixed inset-0 bg-black/50 flex items-center justify-center p-4"
     >
-<!-- contenido Modal -->      
-    <div
-      class="bg-white rounded-xl p-6 max-w-2xl w-full"
-      >
+      <!-- contenido Modal -->
+      <div class="bg-white rounded-xl p-6 max-w-2xl w-full max-h-[90vh] overflow-y-auto relative">
+        <!-- boton cerrar modal -->
+        <button
+          id="cerrarModal"
+          class="absolute top-4 right-4 text-xl hover:text-red-600"
+        >
+          ✖
+        </button>
 
-<!-- boton cerrar modal -->
-    <button 
-      id="cerrarModal"
-      class="absolute top-4 right-4 text-xl hover:text-red-600"
-      >
-      ✖
-    </button>
+        <!-- imagen del Modal -->
+        <img
+          id="imagenModal"
+          src=""
+          alt="Imagen receta"
+          class="w-full h-48 object-cover rounded-lg"
+        />
 
-<!-- imagen del Modal -->
-    <img 
-      id="imagenModal" 
-      src="" 
-      alt="Imagen receta"
-      class="w-full h-72 object-cover rounded-lg"
-      >
+        <!-- nombre de la receta -->
+        <h2
+          id="tituloModal"
+          class="text-2xl font-bold mt-4 text-green-700"
+        ></h2>
 
-<!-- nombre de la receta -->
-      <h2 
-        id="tituloModal"
-        class="text-2xl font-bold mt-4 text-green-700">
-      </h2>
-      
-<!-- categoria -->
-      <p
-        id="categoriaModal"
-        class="mt-2 text-gray-700">
-      </p>
+        <!-- categoria -->
+        <p id="categoriaModal" class="mt-2 text-gray-700"></p>
 
-<!-- pais-->
-      <p
-        id="paisModal"
-        class="text-gray-700">
-      </p>
+        <!-- pais-->
+        <p id="paisModal" class="text-gray-700"></p>
 
-<!-- ingredientes -->
-      <h3
-         class="font-bold text-xl mt-5">
-         Ingredientes       
-      </h3>
-      
-      <p 
-        id="ingredientesModal"
-        class="whitespace-pre-line mt-2">
-      </p>
+        <!-- ingredientes -->
+        <h3 class="font-bold text-xl mt-5">Ingredientes</h3>
 
-<!-- preparacion -->
-      <h3
-         class="font-bold text-xl mt-5">
-         Preparación       
-      </h3>
-      
-      <p 
-        id="preparacionModal"
-        class="mt-2 text-justify">
-      </p>
+        <p id="ingredientesModal" class="whitespace-pre-line mt-2"></p>
 
+        <!-- preparacion -->
+        <h3 class="font-bold text-xl mt-5">Preparación</h3>
+
+        <p id="preparacionModal" class="mt-2 text-justify"></p>
       </div>
     </div>
 
-<!--footer-->
+    <!--footer-->
     <footer class="bg-green-100 text-center p-6 mt-8">
-
-        <p class=" font-bold">
-          © 2026 NutriChef
-        </p>
+      <p class="font-bold">© 2026 NutriChef</p>
 
       <p class="text-gray-700">
         Descubre recetas saludables para cada ocasión.
       </p>
     </footer>
 
-<!-- conectamos con JS -->
-     <script src="logica.js"></script>
-
+    <!-- conectamos con JS -->
+    <script src="logica.js"></script>
   </body>
 </html>
